@@ -1,12 +1,12 @@
 # CURRENT STATE
 
-VERSION: 0.3.0  
+VERSION: 0.5.0  
 CURRENT_PHASE: MVP VENDÁVEL + PRIMEIRA VENDA  
-CURRENT_TASK: APP-006 — Painel mínimo da barbearia  
-LAST_COMPLETED: APP-003 persistência multi-tenant, APP-004 motor de disponibilidade, APP-005 proteção transacional contra double booking  
-BLOCKERS: D1 remoto ainda precisa ser criado/configurado; demo pública, painel, onboarding, autenticação completa e cobrança ainda precisam ser concluídos  
-NEXT_ACTION: implementar painel operacional mobile-first usando a API autenticada; depois APP-007  
-FILES_CHANGED: package.json, package-lock.json, wrangler.toml, migrations/, worker/, src/, test/, docs/CURRENT_STATE.md, docs/EXECUTION_BOARD.md, docs/ARCHITECTURE.md, README.md  
+CURRENT_TASK: APP-010 — Publicar demo e iniciar piloto  
+LAST_COMPLETED: APP-003/004/005 persistência e booking confiável; APP-006 painel; APP-007 autenticação/permissões; APP-008 eventos mínimos; APP-009 onboarding  
+BLOCKERS: D1 remoto e segredo SETUP_KEY precisam ser criados na conta Cloudflare; cobrança e canal comercial autorizado ainda pendentes  
+NEXT_ACTION: criar/vincular D1, aplicar migrações, definir SETUP_KEY e publicar demo; então cadastrar primeira barbearia piloto  
+FILES_CHANGED: package.json, package-lock.json, wrangler.toml, migrations/, worker/, admin.html, manage.html, setup.html, src/, test/, docs/CURRENT_STATE.md, docs/EXECUTION_BOARD.md, docs/ARCHITECTURE.md, README.md  
 DECISIONS:
 - Cloudflare Workers + D1: menor infraestrutura suficiente e free-first
 - isolamento reforçado por tenant_id e chaves estrangeiras compostas
@@ -16,4 +16,6 @@ DECISIONS:
 - produtos, combos, planos mensal/trimestral e prioridade configurável já possuem modelo persistente
 - nenhuma credencial secreta no frontend
 - publicação remota depende de HUMAN_GATE para criar/vincular o D1
-
+- painel permite agenda, indicadores, status, remarcação, bloqueio e gestão de cadastros
+- onboarding protegido por SETUP_KEY cria tenant e proprietário sem novo código
+- OWNER administra; BARBER só acessa sua própria agenda e ações operacionais
