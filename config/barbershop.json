@@ -1,0 +1,21 @@
+{
+  "id": "demo-barbearia",
+  "name": "Barbearia",
+  "currency": "BRL",
+  "theme": {
+    "accent": "#D3A84C",
+    "background": "#0C0D0F",
+    "surface": "#16181C",
+    "text": "#F7F7F5",
+    "muted": "#A4A7AE"
+  },
+  "services": [
+    {"id":"corte","name":"Corte","durationMin":45,"price":45},
+    {"id":"barba","name":"Barba","durationMin":30,"price":35},
+    {"id":"combo","name":"Corte + Barba","durationMin":70,"price":70}
+  ],
+  "barbers": [
+    {"id":"rafael","name":"Rafael","specialties":["Fade","Barba"]},
+    {"id":"lucas","name":"Lucas","specialties":["Social","Tesoura"]}
+  ]
+}
