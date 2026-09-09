@@ -1,4 +1,4 @@
-const state = { config: null, step: 0, service: null, barber: null, date: new Date().toISOString().slice(0, 10), time: null, loading: false, error: null, bookingStartedAt: null };
+const state = { config: null, step: 0, service: null, barber: null, date: new Date().toISOString().slice(0, 10), time: null, loading: false, error: null, bookingStartedAt: null, demoMode: location.hostname.endsWith("github.io") };
 
 async function boot() {
   try {
@@ -14,6 +14,7 @@ async function boot() {
 }
 
 function track(name, properties = {}) {
+  if (state.demoMode) return;
   const tenant = state.config?.slug || state.config?.id;
   if (!tenant) return;
   fetch("/api/public/events", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ tenant, name, properties }), keepalive: true }).catch(() => {});
@@ -33,6 +34,12 @@ async function loadSlots() {
   state.loading = true;
   state.error = null;
   render();
+  if (state.demoMode) {
+    state.slots = ["09:00", "10:00", "11:30", "13:30", "15:00", "16:30", "18:00"].map((time) => `${state.date}T${time}:00`);
+    state.loading = false;
+    render();
+    return;
+  }
   try {
     const query = new URLSearchParams({ tenant: state.config.slug || state.config.id, barberId: state.barber.id, serviceId: state.service.id, date: state.date });
     const response = await fetch(`/api/public/availability?${query}`);
@@ -55,6 +62,13 @@ async function confirmBooking() {
   state.loading = true;
   state.error = null;
   render();
+  if (state.demoMode) {
+    state.booking = { id: "demo", status: "SIMULATED" };
+    state.loading = false;
+    state.step = 4;
+    render();
+    return;
+  }
   try {
     const response = await fetch("/api/public/bookings", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ tenant: state.config.slug || state.config.id, serviceId: state.service.id, barberId: state.barber.id, startAt: state.time, bookingStartedAt: state.bookingStartedAt, customer: { name: data.get("name"), phone: data.get("phone") } }) });
     const result = await response.json();
@@ -76,7 +90,7 @@ function render() {
     return;
   }
   const pages = [servicesPage, barbersPage, timesPage, confirmPage];
-  app.innerHTML = `<div class="shell"><header class="brand"><strong>${e(state.config.name)}</strong><span class="badge">AGENDA ONLINE</span></header>${state.error ? `<div class="alert">${e(state.error)}</div>` : ""}${pages[state.step]()}</div><div class="bottom"><div class="bottom-inner"><div class="step">Etapa ${state.step + 1} de 4</div>${state.step > 0 ? `<div class="summary">${summary()}</div>` : ""}<button class="cta" id="next" ${canNext() && !state.loading ? "" : "disabled"}>${state.loading ? "Carregando…" : state.step === 3 ? "Confirmar agendamento" : "Continuar"}</button></div></div>`;
+  app.innerHTML = `<div class="shell"><header class="brand"><strong>${e(state.config.name)}</strong><span class="badge">${state.demoMode ? "DEMONSTRAÇÃO" : "AGENDA ONLINE"}</span></header>${state.demoMode ? `<div class="demo-notice">Demonstração: nenhuma reserva real será criada.</div>` : ""}${state.error ? `<div class="alert">${e(state.error)}</div>` : ""}${pages[state.step]()}</div><div class="bottom"><div class="bottom-inner"><div class="step">Etapa ${state.step + 1} de 4</div>${state.step > 0 ? `<div class="summary">${summary()}</div>` : ""}<button class="cta" id="next" ${canNext() && !state.loading ? "" : "disabled"}>${state.loading ? "Carregando…" : state.step === 3 ? "Confirmar agendamento" : "Continuar"}</button></div></div>`;
   bind();
 }
 
