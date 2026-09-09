@@ -1,18 +1,19 @@
 # CURRENT STATE
 
-VERSION: 0.2.0  
+VERSION: 0.3.0  
 CURRENT_PHASE: MVP VENDÁVEL + PRIMEIRA VENDA  
-CURRENT_TASK: APP-003 — Persistência, multi-tenancy e motor de disponibilidade  
-LAST_COMPLETED: APP-001 scaffold, APP-002 booking visual e FIRST_SALE_SPRINT  
-BLOCKERS: backend/persistência real, demo pública, cobrança real e canal comercial ainda precisam ser concluídos antes da venda contar como real  
-NEXT_ACTION: implementar base transacional de booking e preparar demo publicável; depois executar piloto local em Montes Claros  
-FILES_CHANGED: docs/CURRENT_STATE.md, docs/FIRST_SALE_SPRINT.md  
+CURRENT_TASK: APP-006 — Painel mínimo da barbearia  
+LAST_COMPLETED: APP-003 persistência multi-tenant, APP-004 motor de disponibilidade, APP-005 proteção transacional contra double booking  
+BLOCKERS: D1 remoto ainda precisa ser criado/configurado; demo pública, painel, onboarding, autenticação completa e cobrança ainda precisam ser concluídos  
+NEXT_ACTION: implementar painel operacional mobile-first usando a API autenticada; depois APP-007  
+FILES_CHANGED: package.json, package-lock.json, wrangler.toml, migrations/, worker/, src/, test/, docs/CURRENT_STATE.md, docs/EXECUTION_BOARD.md, docs/ARCHITECTURE.md, README.md  
 DECISIONS:
-- mobile-first e config-driven
-- multi-tenant
-- zero/baixo custo primeiro
-- produtos, combos e planos mensal/trimestral entram como motor de ticket/recorrência
-- prioridade de agenda será benefício configurável de plano
-- primeira venda só conta com aceite + pagamento confirmado
-- automação alvo >=95% dos processos repetitivos
-- não escalar prospecção antes de demo e booking confiáveis
+- Cloudflare Workers + D1: menor infraestrutura suficiente e free-first
+- isolamento reforçado por tenant_id e chaves estrangeiras compostas
+- disponibilidade calculada no backend a partir de expediente, duração, bloqueios e reservas
+- prevenção de conflito ocorre por triggers SQLite em INSERT e UPDATE, não no frontend
+- catálogo público expõe somente tenant ativo e seus próprios registros
+- produtos, combos, planos mensal/trimestral e prioridade configurável já possuem modelo persistente
+- nenhuma credencial secreta no frontend
+- publicação remota depende de HUMAN_GATE para criar/vincular o D1
+

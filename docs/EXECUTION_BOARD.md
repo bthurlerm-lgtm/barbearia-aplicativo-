@@ -3,9 +3,9 @@
 ## P0
 - [x] APP-001 Scaffold mínimo
 - [x] APP-002 Fluxo visual serviço → barbeiro → horário → confirmação
-- [ ] APP-003 Persistência e modelo multi-tenant
-- [ ] APP-004 Motor de disponibilidade
-- [ ] APP-005 Proteção contra double booking
+- [x] APP-003 Persistência e modelo multi-tenant
+- [x] APP-004 Motor de disponibilidade
+- [x] APP-005 Proteção contra double booking
 - [ ] APP-006 Painel mínimo da barbearia
 - [ ] APP-007 Autenticação e permissões
 - [ ] APP-008 Instrumentação de métricas
@@ -22,3 +22,4 @@
 
 ## GATE DO MVP
 Cliente deve concluir booking em <60s e a barbearia deve operar a agenda sem conflito.
+

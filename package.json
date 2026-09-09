@@ -1,9 +1,17 @@
 {
   "name": "barbearia-app",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "python3 -m http.server 4173",
-    "start": "python3 -m http.server 4173"
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "test": "node --test",
+    "check": "node --check worker/index.js && node --test",
+    "db:local": "wrangler d1 migrations apply barbearia-db --local"
+  },
+  "devDependencies": {
+    "wrangler": "^4.35.0"
   }
 }
+

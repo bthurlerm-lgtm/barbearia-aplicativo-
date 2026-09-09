@@ -1,0 +1,15 @@
+name = "barbearia-app"
+main = "worker/index.js"
+compatibility_date = "2026-09-01"
+
+[assets]
+directory = "."
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "barbearia-db"
+database_id = "LOCAL_OR_REPLACE_AFTER_CREATE"
+migrations_dir = "migrations"
+

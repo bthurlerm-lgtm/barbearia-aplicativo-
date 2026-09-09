@@ -1,17 +1,28 @@
 # Barbearia App
 
-MVP mobile-first para agendamento de serviços de barbearia.
+MVP multi-tenant mobile-first para agendamento confiável, catálogo e receita recorrente de barbearias.
 
-## Objetivo
-Cliente escolhe serviço → barbeiro → horário → confirma o agendamento em menos de 60 segundos.
-
-## Executar localmente
+## Executar
 ```bash
+npm install
+npm run db:local
 npm run dev
 ```
-Abra `http://localhost:4173`.
+
+Abra `http://localhost:8787`.
+
+## Validar
+```bash
+npm run check
+```
 
 ## Estrutura
-- `src/` — aplicação
-- `config/` — configuração da barbearia
-- `docs/` — governança, estado e plano
+- `src/` — booking público
+- `worker/` — API e regras de negócio
+- `migrations/` — D1/SQLite
+- `test/` — testes automatizados
+- `docs/` — estado e decisões
+
+## Produção
+Antes do deploy, crie o banco D1, substitua `LOCAL_OR_REPLACE_AFTER_CREATE` pelo ID real e aplique as migrações.
+
